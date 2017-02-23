@@ -1,0 +1,16 @@
+{
+  "name": "snmp-test",
+  "version": "1.0.0",
+  "description": "Test snmp in node",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "author": "Rattapum Puttaraksa",
+  "license": "ISC",
+  "dependencies": {
+    "net-snmp": "^1.1.19",
+    "snmp-native": "^1.1.0",
+    "util": "^0.10.3"
+  }
+}
