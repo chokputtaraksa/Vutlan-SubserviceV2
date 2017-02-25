@@ -8,12 +8,13 @@
 		"type":"Internal", //Internal/CAN/Rs
 		"set":{ //if don't want to set something don't fill it
 			"name":"xxxx",  //like I didn't want to set name just delete it from Json
-			"LowAlarm":"zz",
-			"LowWarning":"aa",
-			"HighWarning":"bb",
-			"HighAlarm":"cc",
-			"At0":"x.a",
-			"At75":"b.c"
+			"lowAlarm":"zz",
+			"lowWarning":"aa",
+			"highWarning":"bb",
+			"highAlarm":"cc",
+			"at0":"x.a",
+			"at75":"b.c",
+			"exp" : "as",
 		}
 	}
 }
@@ -26,8 +27,8 @@
 		"type":"Internal", //Internal/CAN/Rs
 		"set":{
 			"name":"xxxx",
-			"Initial":"on",//on/off
-			"Pulse":"1"//0.0-xx.xx
+			"initial":"on",//on/off
+			"pulse":"1"//0.0-xx.xx
 		}
 	}
 }
@@ -39,8 +40,9 @@
 		"type":"Internal", //Internal/CAN/Rs
 		"set":{
 			"name":"xxxx",
-			"Initial":"on",//on/off
-			"Pulse":"1"//0.0-xx.xx
+			"reset":"on",//on/off
+			"level":"1",//0.0-xx.xx
+			"reverse" : ""
 		}
 	}
 }
