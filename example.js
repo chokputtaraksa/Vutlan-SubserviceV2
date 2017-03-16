@@ -11,7 +11,7 @@ sessionInfo = {
     community : "write", // read(read data) or write(set&read data)
 }
 
-var session = new mylibs.MonitorObj(sessionInfo);
+var session = new mylibs.MonitorObj("username", "password", sessionInfo);
 // // console.log(session.getSnmpInfo());
 setData = { // look at jsonModel/JsonEx.json
     "sid":"203001",

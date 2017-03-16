@@ -12,8 +12,10 @@ sessionInfo = {
 }
 
 */
-function MonitorObj (sessionInfo) {
+function MonitorObj (username, password, sessionInfo) {
     this.sessionInfo = sessionInfo;
+    this.username = username;
+    this.password = password;
     this.session = snmp.createSession (sessionInfo.targetIP, sessionInfo.community, {version: snmp.Version2c});
 }
 

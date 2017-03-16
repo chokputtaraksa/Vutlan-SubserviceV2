@@ -1,5 +1,5 @@
 {
-  "name": "snmp-test",
+  "name": "vutlan-snmp",
   "version": "1.0.0",
   "description": "Test snmp in node",
   "main": "index.js",
@@ -9,8 +9,25 @@
   "author": "Rattapum Puttaraksa",
   "license": "ISC",
   "dependencies": {
+    "crypto": "0.0.3",
     "net-snmp": "^1.1.19",
+    "node-libcurl": "^1.1.0",
+    "request": "^2.81.0",
+    "sha1": "^1.1.1",
     "snmp-native": "^1.1.0",
-    "util": "^0.10.3"
-  }
+    "util": "^0.10.3",
+    "xml2js": "^0.4.17"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whitedevilza/Vutlan-SubserviceV2.git"
+  },
+  "keywords": [
+    "vutlan",
+    "snmp"
+  ],
+  "bugs": {
+    "url": "https://github.com/whitedevilza/Vutlan-SubserviceV2/issues"
+  },
+  "homepage": "https://github.com/whitedevilza/Vutlan-SubserviceV2#readme"
 }
