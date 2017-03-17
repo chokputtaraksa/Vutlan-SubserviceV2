@@ -6,21 +6,19 @@ var crypto = require('crypto');
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
-var SmsObj = function(hostIP, username, password, toPhone, message){
+var SmsObj = function(hostIP, username, password){
     this.hostIP = hostIP;
     this.username = username;
     this.password = password;
-    this.toPhone = toPhone;
-    this.message = message;
 }
 
 
-SmsObj.prototype.sendSms = function(){
+SmsObj.prototype.sendSms = function(toPhone ,message){
     var host_ip = this.hostIP;
-    var phone_num = this.toPhone;
+    var phone_num = toPhone;
     var username =  this.username;
     var password = this.password;
-    var message = this.message;
+    var message = message;
 
     var hash = crypto.createHash('sha1').update(password).digest("hex");// hash password with digest sha1
     var options = {// prepare data
