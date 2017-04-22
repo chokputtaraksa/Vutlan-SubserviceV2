@@ -24,16 +24,19 @@ MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
     // following an OID for which varbinds should be fetched, and defaults to 20
 
     //1.3.6.1.4.1.39052.1.3 = ctlUnitElementsTable's OID in vutlan.mib
-    this.session.table ("1.3.6.1.4.1.39052.1.3", maxRepetitions, function(err, table){
+    var session1 = snmp.createSession (this.sessionInfo.targetIP, this.sessionInfo.community, {version: snmp.Version2c});
+    session1.table ("1.3.6.1.4.1.39052.1.3", maxRepetitions, function(err, table){
         var monitor;
         if (err) {
-    		throw new Error(err);
+            if(typeof callback === 'function'){
+    		    callback(err, null);
+            }
     	} else {
             // console.log(table);
             try{
                 var sensors =  [];
                 var indexes = [];
-
+                
                 for (index in table) indexes.push(index);//search for index's name
 
                 for (var i=indexes.length-1; i>=0; i--) {
@@ -45,7 +48,9 @@ MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
                         sensors.push(new Sensor(table[indexes[i]]));
                     }
                 }
-                callback(null, monitor)
+                if(typeof callback === 'function'){
+                    callback(null, monitor);
+                }
             }catch(err){
                 throw new Error('Operation inside table function failed');
             }

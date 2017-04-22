@@ -5,7 +5,7 @@
     "password": "password",
     "port": 21,
     "secure": false,
-    "protocol": "ftp",
+    "protocol": "sftp",
     "uploadOnSave": false,
     "passive": false,
     "debug": false,
