@@ -27,24 +27,28 @@ MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
     this.session.table ("1.3.6.1.4.1.39052.1.3", maxRepetitions, function(err, table){
         var monitor;
         if (err) {
-    		callback(err.toString ());
+    		throw new Error(err);
     	} else {
             // console.log(table);
-            var sensors =  [];
-            var indexes = [];
+            try{
+                var sensors =  [];
+                var indexes = [];
 
-            for (index in table) indexes.push(index);//search for index's name
+                for (index in table) indexes.push(index);//search for index's name
 
-            for (var i=indexes.length-1; i>=0; i--) {
-                // console.log(i);
-                if(i==0){ //1st row is monitor information
-                    // console.log(table[indexes[i]]);
-                    monitor = new Monitor(getSessionIP(this.sessionInfo), table[indexes[i]][7], new Date(), sensors);
-                }else{
-                    sensors.push(new Sensor(table[indexes[i]]));
+                for (var i=indexes.length-1; i>=0; i--) {
+                    // console.log(i);
+                    if(i==0){ //1st row is monitor information
+                        // console.log(table[indexes[i]]);
+                        monitor = new Monitor(getSessionIP(this.sessionInfo), table[indexes[i]][7], new Date(), sensors);
+                    }else{
+                        sensors.push(new Sensor(table[indexes[i]]));
+                    }
                 }
+                callback(null, monitor)
+            }catch(err){
+                throw new Error('Operation inside table function failed');
             }
-            callback(null, monitor)
     	}
     });
 }

@@ -7,11 +7,11 @@ var Monitor = require("./models/monitor.js");
     mylibs = require("./controllers/mylibs");
 
 sessionInfo = {
-    targetIP : "161.246.6.96",
+    targetIP : "161.246.6.91",
     community : "write", // read(read data) or write(set&read data)
 }
 
-var session = new mylibs.MonitorObj("username", "password", sessionInfo);
+var session = new mylibs.MonitorObj("guest", "guest", sessionInfo);
 // // console.log(session.getSnmpInfo());
 setData = { // look at jsonModel/JsonEx.json
     "sid":"203001",
