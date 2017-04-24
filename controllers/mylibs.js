@@ -29,6 +29,7 @@ MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
         var monitor;
         if (err) {
             if(typeof callback === 'function'){
+                session1.close();
     		    callback(err, null);
             }
     	} else {
@@ -49,9 +50,11 @@ MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
                     }
                 }
                 if(typeof callback === 'function'){
+                    session1.close();
                     callback(null, monitor);
                 }
             }catch(err){
+                session1.close();
                 throw new Error('Operation inside table function failed');
             }
     	}
