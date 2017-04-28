@@ -16,7 +16,6 @@ function MonitorObj (username, password, sessionInfo) {
     this.sessionInfo = sessionInfo;
     this.username = username;
     this.password = password;
-    this.session = snmp.createSession (sessionInfo.targetIP, sessionInfo.community, {version: snmp.Version2c});
 }
 
 MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
@@ -24,12 +23,12 @@ MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
     // following an OID for which varbinds should be fetched, and defaults to 20
 
     //1.3.6.1.4.1.39052.1.3 = ctlUnitElementsTable's OID in vutlan.mib
-    var session1 = snmp.createSession (this.sessionInfo.targetIP, this.sessionInfo.community, {version: snmp.Version2c});
-    session1.table ("1.3.6.1.4.1.39052.1.3", maxRepetitions, function(err, table){
+    var session = snmp.createSession (this.sessionInfo.targetIP, this.sessionInfo.community, {version: snmp.Version2c});
+    session.table ("1.3.6.1.4.1.39052.1.3", maxRepetitions, function(err, table){
         var monitor;
         if (err) {
             if(typeof callback === 'function'){
-                session1.close();
+                session.close();
     		    callback(err, null);
             }
     	} else {
@@ -50,11 +49,11 @@ MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
                     }
                 }
                 if(typeof callback === 'function'){
-                    session1.close();
+                    session.close();
                     callback(null, monitor);
                 }
             }catch(err){
-                session1.close();
+                session.close();
                 throw new Error('Operation inside table function failed');
             }
     	}
@@ -63,6 +62,7 @@ MonitorObj.prototype.getElementsTable = function(maxRepetitions, callback){
 
 
 MonitorObj.prototype.setSensorById = function(setData, callback){
+    var session = snmp.createSession (this.sessionInfo.targetIP, this.sessionInfo.community, {version: snmp.Version2c});
     var setting = {
         sid : setData.sid,
         sclass : setData.class,
@@ -83,73 +83,73 @@ MonitorObj.prototype.setSensorById = function(setData, callback){
     var changeList = [];
     var done = 0;
     // console.log(setting);
-    setName(this.session, setting.sid, setting.setName, function(err,res){
+    setName(session, setting.sid, setting.setName, function(err,res){
         if(!err) changeList.push(res);
     });
     if(setting.sclass === "analog"){
         if(setting.setLowAlarm != null){
-            setInternalLowAlarm(this.session, setting.sid, setting.setLowAlarm, function(err,res){
+            setInternalLowAlarm(session, setting.sid, setting.setLowAlarm, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANLowAlarm(this.session, setting.sid, setting.setLowAlarm, function(err,res){
+            setCANLowAlarm(session, setting.sid, setting.setLowAlarm, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSLowAlarm(this.session, setting.sid, setting.setLowAlarm, function(err,res){
+            setRSLowAlarm(session, setting.sid, setting.setLowAlarm, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
         if(setting.setLowWarning != null){
-            setInternalLowWarning(this.session, setting.sid, setting.setLowWarning, function(err,res){
+            setInternalLowWarning(session, setting.sid, setting.setLowWarning, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANLowWarning(this.session, setting.sid, setting.setLowWarning, function(err,res){
+            setCANLowWarning(session, setting.sid, setting.setLowWarning, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSLowWarning(this.session, setting.sid, setting.setLowWarning, function(err,res){
+            setRSLowWarning(session, setting.sid, setting.setLowWarning, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
         if(setting.setHighWarning != null){
-            setInternalHighWarning(this.session, setting.sid, setting.setHighWarning, function(err,res){
+            setInternalHighWarning(session, setting.sid, setting.setHighWarning, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANHighWarning(this.session, setting.sid, setting.setHighWarning, function(err,res){
+            setCANHighWarning(session, setting.sid, setting.setHighWarning, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSHighWarning(this.session, setting.sid, setting.setHighWarning, function(err,res){
+            setRSHighWarning(session, setting.sid, setting.setHighWarning, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
         if(setting.setHighAlarm != null){
-            setInternalHighAlarm(this.session, setting.sid, setting.setHighAlarm, function(err,res){
+            setInternalHighAlarm(session, setting.sid, setting.setHighAlarm, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANHighAlarm(this.session, setting.sid, setting.setHighAlarm, function(err,res){
+            setCANHighAlarm(session, setting.sid, setting.setHighAlarm, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSHighAlarm(this.session, setting.sid, setting.setHighAlarm, function(err,res){
+            setRSHighAlarm(session, setting.sid, setting.setHighAlarm, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
         if(setting.setAt0 != null){
-            setInternalAt0(this.session, setting.sid, setting.setAt0, function(err,res){
+            setInternalAt0(session, setting.sid, setting.setAt0, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANAt0(this.session, setting.sid, setting.setAt0, function(err,res){
+            setCANAt0(session, setting.sid, setting.setAt0, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSAt0(this.session, setting.sid, setting.setAt0, function(err,res){
+            setRSAt0(session, setting.sid, setting.setAt0, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
         if(setting.setAt75 != null){
-            setInternalAt75(this.session, setting.sid, setting.setAt75, function(err,res){
+            setInternalAt75(session, setting.sid, setting.setAt75, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANAt75(this.session, setting.sid, setting.setAt75, function(err,res){
+            setCANAt75(session, setting.sid, setting.setAt75, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSAt75(this.session, setting.sid, setting.setAt75, function(err,res){
+            setRSAt75(session, setting.sid, setting.setAt75, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
@@ -161,64 +161,65 @@ MonitorObj.prototype.setSensorById = function(setData, callback){
     }
     if(setting.sclass === "discrete"){
         if(setting.setReset != null){
-            setAnalogReset(this.session, setting.sid, setting.setReset, function(err,res){
+            setAnalogReset(session, setting.sid, setting.setReset, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANReset(this.session, setting.sid, setting.setReset, function(err,res){
+            setCANReset(session, setting.sid, setting.setReset, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSReset(this.session, setting.sid, setting.setReset, function(err,res){
+            setRSReset(session, setting.sid, setting.setReset, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
         if(setting.setLevel != null){
-            setAnalogLevel(this.session, setting.sid, setting.setLevel, function(err,res){
+            setAnalogLevel(session, setting.sid, setting.setLevel, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANLevel(this.session, setting.sid, setting.setLevel, function(err,res){
+            setCANLevel(session, setting.sid, setting.setLevel, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSLevel(this.session, setting.sid, setting.setLevel, function(err,res){
+            setRSLevel(session, setting.sid, setting.setLevel, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
         if(setting.setReverse != null){
-            setAnalogReverse(this.session, setting.sid, setting.setReverse, function(err,res){
+            setAnalogReverse(session, setting.sid, setting.setReverse, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANReverse(this.session, setting.sid, setting.setReverse, function(err,res){
+            setCANReverse(session, setting.sid, setting.setReverse, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSReverse(this.session, setting.sid, setting.setReverse, function(err,res){
+            setRSReverse(session, setting.sid, setting.setReverse, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
     }
     if(setting.sclass === "switch"){
         if(setting.setInitState != null){
-            setInternalInitial(this.session, setting.sid, setting.setInitState, function(err,res){
+            setInternalInitial(session, setting.sid, setting.setInitState, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANInitial(this.session, setting.sid, setting.setInitState, function(err,res){
+            setCANInitial(session, setting.sid, setting.setInitState, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSInitial(this.session, setting.sid, setting.setInitState, function(err,res){
+            setRSInitial(session, setting.sid, setting.setInitState, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
         if(setting.setPulse != null){
-            setInternalPulse(this.session, setting.sid, setting.setPulse, function(err,res){
+            setInternalPulse(session, setting.sid, setting.setPulse, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setCANPulse(this.session, setting.sid, setting.setPulse, function(err,res){
+            setCANPulse(session, setting.sid, setting.setPulse, function(err,res){
                 if(!err) changeList.push(res);
             });
-            setRSPulse(this.session, setting.sid, setting.setPulse, function(err,res){
+            setRSPulse(session, setting.sid, setting.setPulse, function(err,res){
                 if(!err) changeList.push(res);
             });
         }
     }
-    setTimeout(function(){
+    setTimeout(function(){ // because it asynchronus we must wait it for sometime to complete it's task.
+        session.close();
         callback(null, changeList);
     }, 5000);
 }
